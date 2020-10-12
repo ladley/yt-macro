@@ -10,6 +10,13 @@
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal"
-    }
+    },
+    {
+      "type": "ahk",
+      "request": "launch",
+      "name": "Autohotkey Debugger",
+      "program": "",
+      "stopOnEntry": true
+    },
   ]
 }

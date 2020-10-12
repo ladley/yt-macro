@@ -5,6 +5,8 @@ from time import sleep
 # pag.moveTo(x=48, y=205, duration=0.5)
 # pag.click(clicks=2)
 
+pag.FAILSAFE = False
+
 data = pag.prompt('추출데이터를 넣어주세요.')
 
 datatojson = json.loads(data) 
@@ -14,7 +16,7 @@ print(datatojson)
 target_id = datatojson['target_id']
 target_time = datatojson['target_time']
 source_searchword = datatojson['source_searchword']
-order = datatojson['order']
+order = 245+155*(int(datatojson['order'])+1)
 repeat = datatojson['repeat']
 
 print(target_id)
@@ -23,20 +25,20 @@ print(source_searchword)
 print(order)
 print(repeat)
 
-# # 크롬실행
-pag.hotkey('command', 'space')
+# 크롬실행
+pag.press('win')
 pag.typewrite('chrome', 0.1)
 pag.press('enter')
 
 sleep(2)
 
-# # 시크릿탭 열기
-pag.hotkey('command', 'shift', 'n')
+# 시크릿탭 열기
+pag.hotkey('ctrl', 'shift', 'n')
 
 sleep(0.5)
 
-# # 주소창 클릭후 유튜브 검색
-pag.click(x=699, y=87)
+# 주소창 클릭후 유튜브 검색
+pag.click(x=300, y=41)
 pag.typewrite('youtube.com', 0.1)
 pag.press('enter')
 
@@ -44,18 +46,18 @@ sleep(2)
 
 
 
-# # 한영 바꾸기
-pag.hotkey('ctrl', 'space')
-pag.click(x=650, y=163)
+# 한영 바꾸기
+pag.hotkey('shift', 'space')
 
-# # 검색어 검색
+# 검색어 검색
+pag.click(x=641, y=133)
 pag.typewrite(source_searchword, interval=0.1)
 pag.press('enter')
 
-# sleep(2)
+sleep(2)
 
-# # 첫번째 영상클릭
-# pag.click(x=450, y=364)
+# 영상클릭
+pag.click(x=590, y=order)
 
 # sleep(7)
 

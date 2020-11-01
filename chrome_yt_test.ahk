@@ -10,15 +10,17 @@ CoordMode, Mouse, Screen
 Gui +hWndhMainWnd
 Gui Color, White
 ControlColor(hTxt, hMainWnd, 0xFFFFFF)
-Gui Add, Button, x059 y90 w250 h28 gBtnF vbtnFile, CallChrome
+Gui Add, Button, x059 y115 w250 h28 gBtnF vbtnFile, CallChrome
 Gui Add, Text, x059 y15 w55 h23 +0x200 vtxt1, StartURL
 Gui Add, Text, x059 y40 w55 h23 +0x200 vtxt2, 검색어
 Gui Add, Text, x059 y65 w55 h23 +0x200 vtxt3, 반복횟수
+Gui Add, Text, x059 y90 w55 h23 +0x200 vtxt4, 속도위치
 
 Gui Add, Edit, x120 y15 w175 h21 vinput1 
 Gui Add, Edit, x120 y40 w175 h21 vinput2  
 Gui Add, Edit, x120 y65 w175 h21 vinput3 
-Gui Show, w392 h150, BJcreen
+Gui Add, Edit, x120 y90 w175 h21 vinput4
+Gui Show, w392 h180, BJcreen
 
 global pring := false
 global SelectedFile := ""
@@ -62,6 +64,7 @@ BtnF:
 	GuiControlGet, input1
 	GuiControlGet, input2
 	GuiControlGet, input3
+	GuiControlGet, input4
 
 	; MsgBox, %A_Index%
 	ChromeInst := new Chrome("ChromeProfile", "--app=" path, "--window-size=1200,1000")
@@ -98,9 +101,12 @@ BtnF:
 			
 			;속도 조절
 			PageInst.Evaluate("$('.ytp-button.ytp-settings-button').click()")
-			Sleep, 300
-			PageInst.Evaluate("$('.ytp-panel-menu').children[1].click()")
-			Sleep, 300
+			Sleep, 500
+			speedText := input4 - 1
+			speedText2 = $('.ytp-panel-menu').children[%speedText%].click()
+			; MsgBox, %speedText%
+			PageInst.Evaluate(speedText2)
+			Sleep, 500
 			PageInst.Evaluate("$('.ytp-panel-menu').lastElementChild.click()")
 
 			;영상 시간만큼 대기
@@ -122,14 +128,15 @@ BtnF:
 			PageInst.kill()
 
 			;비행기모드 끄기
-			MouseClick, Left, 1266, 468
+			MouseClick, Left, 1266, 488
 			Sleep, 5000
 			
 			;비행기모드 켜기
-			MouseClick, Left, 1265, 468
-			Sleep, 3000
+			MouseClick, Left, 1265, 488
+			Sleep, 15000
 			; ChromeInst.Kill()
 			MouseClick, Left, 300, 20
+
 		}
 		
 	}

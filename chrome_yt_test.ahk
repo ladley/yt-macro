@@ -3,7 +3,7 @@
 #NoEnv
 SetWorkingDir %A_ScriptDir%
 SetBatchLines -1
-; CoordMode, Mouse, Screen
+CoordMode, Mouse, Screen
 #Include %A_ScriptDir%\Lib\ControlColor.ahk
 #Include %A_ScriptDir%\Lib\Chrome\Chrome.ahk
 
@@ -63,15 +63,15 @@ BtnF:
 	GuiControlGet, input2
 	GuiControlGet, input3
 
-	Loop %input3%
-		MsgBox, %A_Index%
-		ChromeInst := new Chrome("ChromeProfile", "--app=" path, "--window-size=1200,1000")
-		
-		if !(PageInst := ChromeInst.GetPage()) {
-			MsgBox, Could not retrieve page!
-			ChromeInst.Kill()
-		} else {	
+	; MsgBox, %A_Index%
+	ChromeInst := new Chrome("ChromeProfile", "--app=" path, "--window-size=1200,1000")
+	
+	if !(PageInst := ChromeInst.GetPage()) {
+		MsgBox, Could not retrieve page!
+		ChromeInst.Kill()
+	} else {	
 
+		Loop %input3% {
 			;입력받은 url 호출하며 크롬 실행
 			PageInst.Call("Page.navigate", {"url": input1})
 			PageInst.Evaluate("console.log('start')")
@@ -102,7 +102,6 @@ BtnF:
 			PageInst.Evaluate("$('.ytp-panel-menu').children[1].click()")
 			Sleep, 300
 			PageInst.Evaluate("$('.ytp-panel-menu').lastElementChild.click()")
-			; Send, {Down}{Down}{Down}{Down}{Enter}
 
 			;영상 시간만큼 대기
 			totalcnt := timeExtracting(PageInst)
@@ -127,12 +126,14 @@ BtnF:
 			Sleep, 5000
 			
 			;비행기모드 켜기
-			MouseClick, Left, 70, 468
-			Sleep, 1000
-			ChromeInst.Kill()
+			MouseClick, Left, 1265, 468
+			Sleep, 3000
+			; ChromeInst.Kill()
+			MouseClick, Left, 300, 20
 		}
-	return
-   
+		
+	}
+	MsgBox, 작업이 완료되었습니다.
 log_up(msg){
    
     log_path := A_ScriptDir "\log2.txt" 
